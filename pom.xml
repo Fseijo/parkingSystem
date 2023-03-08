@@ -14,6 +14,10 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
+<!--    ====================================================-->
+<!--    +++              DEPANDANCES                     +++-->
+<!--    ====================================================-->
+
     <dependencies>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -60,6 +64,10 @@
             <version>3.0.0</version>
         </dependency>
     </dependencies>
+
+<!--====================================================-->
+<!--+++                  PLUGINS                     +++-->
+<!--====================================================-->
 
     <build>
         <plugins>
