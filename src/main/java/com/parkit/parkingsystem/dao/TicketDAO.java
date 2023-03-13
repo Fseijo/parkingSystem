@@ -42,7 +42,7 @@ public class TicketDAO {
         Ticket ticket = null;
         try {
             con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.GET_RED_MEMBER);
+            PreparedStatement ps = con.prepareStatement(DBConstants.GET_TICKET);
             //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
             ps.setString(1,vehicleRegNumber);
             ResultSet rs = ps.executeQuery();
@@ -83,14 +83,19 @@ public class TicketDAO {
         }
         return false;
     }
-    public boolean getReductionMember(String vehicleRegNumber){
+    public boolean getRegNumber(String vehicleRegNumber){
         Connection con = null;
         Ticket ticket = null;
+
         try {
             con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.GET_TICKET);
+            PreparedStatement ps = con.prepareStatement(DBConstants.GET_RED_MEMBER);
             ps.setString(1,vehicleRegNumber);
             ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                rs.getString(3).equals(vehicleRegNumber);
+                return true;
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {

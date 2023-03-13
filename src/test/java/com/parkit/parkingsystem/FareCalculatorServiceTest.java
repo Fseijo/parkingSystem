@@ -2,6 +2,8 @@ package com.parkit.parkingsystem;
 
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
+import com.parkit.parkingsystem.dao.TicketDAO;
+import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.FareCalculatorService;
@@ -15,13 +17,15 @@ import java.util.Date;
 
 public class FareCalculatorServiceTest {
 
+    private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
 
+    private static TicketDAO ticketDAO = new TicketDAO();
     private static FareCalculatorService fareCalculatorService;
     private Ticket ticket;
-
     @BeforeAll
     private static void setUp() {
-        fareCalculatorService = new FareCalculatorService();
+        ticketDAO.dataBaseConfig = dataBaseTestConfig;
+        fareCalculatorService = new FareCalculatorService(ticketDAO);
     }
 
     @BeforeEach
@@ -173,6 +177,8 @@ public class FareCalculatorServiceTest {
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber("BBBB");
+        ticketDAO.saveTicket(ticket);
         fareCalculatorService.calculateFare(ticket);
         assertEquals(0.95, ticket.getPrice());
     }
@@ -186,6 +192,8 @@ public class FareCalculatorServiceTest {
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber("AAAA");
+        ticketDAO.saveTicket(ticket);
         fareCalculatorService.calculateFare(ticket);
         assertEquals(1.425, ticket.getPrice());
     }
